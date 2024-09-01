@@ -8,8 +8,32 @@ def quick_sort(arr):
         greater = [x for x in arr[1:] if x > pivot] # Elements greater than the pivot
         return quick_sort(less) + [pivot] + quick_sort(greater) # Recursively sort the sub-arrays
 
+
+# A profiler method, you pass a function and its arguments, and it will return the time taken to execute the function and memory usage
+def profiler(alg, func, *args):
+    import time
+    import resource
+    start_time = time.time()
+    start_mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    result = func(*args)
+    end_mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    end_time = time.time()
+    print("Algorithm: ", alg)
+    print("Input: ", args[0])
+    print("Result: ", result)
+    print("Time taken in ms: ", (end_time - start_time) * 1000)
+    print("Memory used in bytes: ", end_mem - start_mem)
+    print("")
+
+
 # Test cases
-print(quick_sort([3, 6, 8, 10, 1, 2, 1])) # [1, 1, 2, 3, 6, 8, 10]
-print(quick_sort([1, 0, 0, 1, 0, 1])) # [0, 0, 0, 1, 1, 1]
-print(quick_sort([1, 2, 3, 4, 5])) # [1, 2, 3, 4, 5]
-print(quick_sort([5, 4, 3, 2, 1])) # [1, 2, 3, 4, 5]
+test_cases = [
+    [3, 6, 8, 10, 1, 2, 1],
+    [1, 0, 0, 1, 0, 1],
+    [1, 2, 3, 4, 5],
+    [5, 4, 3, 2, 1]
+]
+
+for i in range(len(test_cases)):
+    profiler("Quick Sort", quick_sort, test_cases[i])
+    
